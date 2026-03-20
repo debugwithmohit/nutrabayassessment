@@ -293,7 +293,7 @@
 <!-- API URL config -->
 <div class="api-bar">
   <label>Backend URL</label>
-  <input type="text" id="api-url" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000">
+  <input type="text" id="api-url" value="" placeholder="(current origin)">
 </div>
 
 <div class="layout">
@@ -428,7 +428,8 @@
 
   async function runScreening() {
     const jd = document.getElementById('jd').value.trim();
-    const apiUrl = document.getElementById('api-url').value.trim().replace(/\/$/, '');
+    let apiUrl = document.getElementById('api-url').value.trim().replace(/\/$/, '');
+    if (!apiUrl) apiUrl = window.location.origin;
     const errArea = document.getElementById('error-area');
     errArea.innerHTML = '';
 

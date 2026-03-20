@@ -1,6 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from typing import List
 from groq import Groq
 import json
@@ -19,15 +18,6 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 print(os.getenv("GROQ_API_KEY"))
 
 app = FastAPI(title="AI Resume Screener API", version="2.0.0")
-
-# ✅ Better CORS config
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://127.0.0.1:3000", "http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # ── Text extraction helpers ─────────────────────────────
 
@@ -61,7 +51,7 @@ def extract_text(filename: str, data: bytes) -> str:
 
 @app.get("/")
 def root():
-    return {"status": "ok", "message": "AI Resume Screener API is running 🚀"}
+    return FileResponse("frontend.html", media_type="text/html")
 
 
 @app.post("/screen")
